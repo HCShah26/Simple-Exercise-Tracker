@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ExerciseTrackerHS.SettingsPage"
+             Title="SettingsPage">
+    <StackLayout x:Name="SettingStack" Padding="20" Spacing="10" VerticalOptions="FillAndExpand">
+        <Label 
+            Text="Simple Exercise Tracker"
+            Style="{StaticResource Headline}"
+            SemanticProperties.HeadingLevel="Level1"
+            HorizontalOptions="Center" />
+
+        <Label 
+            Text="Settings Page"
+            Style="{StaticResource SubHeadline}"
+            SemanticProperties.HeadingLevel="Level1"
+            HorizontalOptions="Center" />
+
+        <VerticalStackLayout Spacing="10" VerticalOptions="CenterAndExpand">
+            <Label
+                Text="Select color and click button to set foreground / background color" 
+                HorizontalTextAlignment="Center"
+                HorizontalOptions="Center"
+                WidthRequest="300"/>
+
+            <Picker x:Name="colorPicker" 
+                    SelectedIndexChanged="OnColorSelected"
+                    WidthRequest="100"
+                    HorizontalOptions="CenterAndExpand"
+                    />
+            
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                <VerticalStackLayout>
+                    <Label x:Name="foregroundLabel" 
+                          Text="          "
+                          WidthRequest="170"
+                          HorizontalOptions="Start" />
+
+                    <Button x:Name="foregroundBtn"
+                            Text="Set Foreground Color"
+                            Clicked="OnForegroundButtonClicked"
+                            WidthRequest="170"
+                            HorizontalOptions="Start" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Label x:Name="backgroundLabel" 
+                       Text="          "
+                       WidthRequest="170"
+                       HorizontalOptions="End" />
+
+                    <Button x:Name="backgroundBtn"
+                            Text="Set Background Color"
+                            Clicked="OnBackgroundButtonClicked"
+                            WidthRequest="170"
+                            HorizontalOptions="End" />
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
+                <Slider x:Name="maxExerciseSlider" 
+                        Minimum="5"
+                        Maximum="60"
+                        WidthRequest="200"
+                        HorizontalOptions="Start"
+                        ValueChanged="OnSliderValueChanged"
+                        />
+                <Label x:Name="maxExerciseValue" 
+                       Style="{StaticResource SubHeadline}"
+                       SemanticProperties.HeadingLevel="Level8"
+                       SemanticProperties.Description="Store value of Slider"
+                       HorizontalOptions="FillAndExpand"
+                       />
+            </HorizontalStackLayout>
+
+            <Button x:Name="saveButton"
+                    Text="Save Preferences"
+                    HorizontalOptions="Center"
+                    Clicked="OnSaveButtonClicked"
+                    />
+        </VerticalStackLayout>
+
+        <HorizontalStackLayout 
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="End"
+            Spacing="50">
+            <ImageButton
+                    x:Name="HomeButton"
+                    Source="homeenabled64.png"
+                    IsEnabled="True"
+                    HorizontalOptions="Start"
+                    Clicked="OnHomePageClicked"/>
+
+            <ImageButton
+                    x:Name="LogButton"
+                    Source="logenabled64.png" 
+                    Clicked="OnLogPageClicked"
+                    IsEnabled="True"
+                    HorizontalOptions="Center"/>
+
+            <ImageButton
+                    x:Name="SetButton"
+                    Source="settingsdisabled64.png" 
+                    IsEnabled="False"
+                    HorizontalOptions="End"/>
+
+        </HorizontalStackLayout>
+    </StackLayout>
+</ContentPage>
