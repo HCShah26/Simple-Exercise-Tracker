@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ExerciseTrackerHS.LogPage"
+             Title="LogPage">
+    <StackLayout x:Name="LogStack" VerticalOptions="FillAndExpand">
+        <VerticalStackLayout Spacing="10">
+            <Label 
+                Text="Simple Exercise Tracker"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" 
+                HorizontalOptions="Center" />
+
+            <Label 
+                Text="Log Exercise Page"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2" 
+                HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Spacing="10" VerticalOptions="CenterAndExpand">
+            <Label 
+               x:Name="DisplayAveExercised" 
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="FillAndExpand"/>
+
+            <Label 
+               x:Name="DisplayExerciseStats"
+               SemanticProperties.Description="Displays the minutes to catch up and total hours exercised to date"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="FillAndExpand"/>
+
+            <DatePicker 
+                x:Name="DTPicker_ExerciseDate"
+                DateSelected="OnDateChanged"
+                HorizontalOptions="Center"
+                VerticalOptions="FillAndExpand" />
+
+            <HorizontalStackLayout 
+                Margin="30" 
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="FillAndExpand">
+
+                <Slider 
+                        x:Name="slider"
+                        Minimum="0"
+                        HorizontalOptions="Start"
+                        WidthRequest="200"
+                        ValueChanged="OnSliderValueChanged" />
+
+                <Label
+                        x:Name="lblSlider"
+                        Style="{StaticResource SubHeadline}"
+                        SemanticProperties.HeadingLevel="Level8"
+                        SemanticProperties.Description="Store value of Slider"
+                        HorizontalOptions="FillAndExpand"
+                        />
+            </HorizontalStackLayout>
+
+            <Button
+                x:Name="LogFitnessBtn"
+                Text="Log Exercise Minutes"
+                Clicked="OnLogFitnessClicked"
+                IsEnabled="False"
+                HorizontalOptions="Center"
+                VerticalOptions="FillAndExpand"
+                />
+        </VerticalStackLayout>
+        
+        <HorizontalStackLayout
+            HorizontalOptions="CenterAndExpand"
+            Spacing="50"
+            VerticalOptions="End">
+            <ImageButton
+                    x:Name="HomeButton"
+                    Source="homeenabled64.png" 
+                    IsEnabled="True"
+                    HorizontalOptions="Start"
+                    Clicked="OnHomePageClicked"
+                />
+
+            <ImageButton
+                    x:Name="LogButton"
+                    Source="logdisabled64.png" 
+                    IsEnabled="True"
+                    HorizontalOptions="Center"/>
+
+            <ImageButton
+                    x:Name="SetButton"
+                    Source="settingsenabled64.png" 
+                    Clicked="OnSettingsPageClick"
+                    IsEnabled="True"
+                    HorizontalOptions="End"/>
+
+        </HorizontalStackLayout>
+    </StackLayout>
+</ContentPage>

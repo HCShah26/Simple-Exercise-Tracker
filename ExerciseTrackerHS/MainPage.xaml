@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ExerciseTrackerHS.MainPage">
+
+    <StackLayout x:Name="MainStack" Padding="20" Spacing="10" VerticalOptions="FillAndExpand">
+        <VerticalStackLayout Spacing="10">
+            <Image
+            Source="exercisetracker1.jpg"
+            HeightRequest="185"
+            Aspect="AspectFit"
+            SemanticProperties.Description="Exercise Tracker HomePage Image" />
+
+            <Label
+            Text="Simple Exercise Tracker"
+            Style="{StaticResource Headline}"
+            SemanticProperties.HeadingLevel="Level1" />
+
+            <Label
+            Text="Welcome to &#10;Simple Exercise Tracker App" 
+            Style="{StaticResource SubHeadline}"
+            SemanticProperties.HeadingLevel="Level2"
+            SemanticProperties.Description="Welcome to Simple Exercise Tracker App" />
+        </VerticalStackLayout>
+        <VerticalStackLayout 
+            Spacing="10"
+            VerticalOptions="CenterAndExpand">
+            <Label 
+                x:Name="DisplayAveExercised" 
+                HorizontalOptions="Center"/>
+
+
+            <Label 
+                x:Name="DisplayExerciseStats"
+                SemanticProperties.Description="Displays the minutes to catch up and total hours exercised to date"
+                HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+
+        <HorizontalStackLayout 
+            HorizontalOptions="CenterAndExpand"
+            Spacing="50"
+            VerticalOptions="End">
+            <ImageButton
+                x:Name="HomeButton"
+                Source="homedisabled64.png" 
+                IsEnabled="False"
+                HorizontalOptions="Start"/>
+
+            <ImageButton
+                x:Name="LogButton"
+                Source="logenabled64.png" 
+                Clicked="OnLogPageClicked"
+                IsEnabled="True"
+                HorizontalOptions="Center"/>
+
+            <ImageButton
+                x:Name="SetButton"
+                Source="settingsenabled64.png" 
+                Clicked="OnSettingsPageClick"
+                IsEnabled="True"
+                HorizontalOptions="End"/>
+        </HorizontalStackLayout>
+    </StackLayout>
+
+</ContentPage>
