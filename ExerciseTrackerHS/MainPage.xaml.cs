@@ -9,7 +9,25 @@ namespace ExerciseTrackerHS
         public ExerciseLogger logger;
 
         int _dailyAveExercise = 0;
-        
+
+
+        // This override method of onAppearing is called to fix the 
+        // issue with SemanticScreenReader.Announce failing to execute
+        // because the Page is not loaded when the Annouce method is called.
+
+        // To fix this we are calling the Dispatcher by using async and wait ad adding a short delay, 
+        // this will ensure that the page is loaded before calling the Annouce method
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Dispatcher.Dispatch(async () => 
+            {
+                await Task.Delay(500);
+                SemanticScreenReader.Announce(DisplayAveExercised.Text);
+                SemanticScreenReader.Announce(DisplayExerciseStats.Text);
+            });
+        }
+
 
         public MainPage()
         {
@@ -18,13 +36,12 @@ namespace ExerciseTrackerHS
             InitializeUserPreferences();
             
             logger = new ExerciseLogger();
-            //logger.LoadDataFromFile();
-            
-            UpdateUI();
+
+            UIHelper.UpdateUI(MainStack, userPreferences.foreground, userPreferences.background);
 
             DisplayStats();
-
         }
+
 
         private void InitializeUserPreferences()
         {
@@ -36,45 +53,18 @@ namespace ExerciseTrackerHS
                 );
         }
 
+
         private void OnLogPageClicked(object sender, EventArgs e)
         {
             Navigation.PushModalAsync(new LogPage(userPreferences, logger));
-            //UpdateStats();
         }
+
 
         private void OnSettingsPageClick(object sender, EventArgs e)
         {
             Navigation.PushModalAsync(new SettingsPage(userPreferences, logger));
         }
 
-        private void UpdateUI()
-        {
-            this.BackgroundColor = userPreferences.background;
-            UpdateColors(MainStack);
-        }
-
-        private void UpdateColors(Layout layout)
-        {
-            foreach (var child in layout.Children)
-            {
-                if (child is Layout childLayout)
-                {
-                    UpdateColors(childLayout);
-                }    
-                else
-                {
-                    switch (child)
-                    {
-                        case Label label:
-                            label.TextColor = userPreferences.foreground;
-                            break;
-                        case Button button:
-                            button.TextColor = userPreferences.foreground;
-                            break;
-                    }
-                }
-            }
-        }
 
         private void DisplayStats()
         {
@@ -96,16 +86,12 @@ namespace ExerciseTrackerHS
             }
             DisplayAveExercised.Text = $"Daily average execise minutes: {_dailyAveExercise}";
             //SemanticScreenReader.Announce(DisplayAveExercised.Text);
-
-
+  
             DisplayExerciseStats.Text = ($"Exercise plan catchup minutes: " +
                 $"{logger.CatchUpMins(userPreferences.maxDailyExercise)}" +
                 $" {Environment.NewLine} " +
                 $"{logger.HoursDone(userPreferences.maxDailyExercise)}");
-            //SemanticScreenReader.Announce(DisplayExerciseStats.Text);
-
+            //SemanticScreenReader.Announce(DisplayExerciseStats.Text);  
         }
-
     }
-
 }

@@ -57,6 +57,8 @@
                         />
             </HorizontalStackLayout>
 
+            <Label x:Name="lblLogStatus" HorizontalOptions="Center" />
+            
             <Button
                 x:Name="LogFitnessBtn"
                 Text="Log Exercise Minutes"

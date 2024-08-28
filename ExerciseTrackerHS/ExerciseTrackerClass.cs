@@ -11,45 +11,63 @@ using System.Diagnostics;
 
 namespace ExerciseTrackerHS
 {
-
-    public class ColorPair
+    static class UIHelper
     {
-        private string _colorName;
-        private Color _selectedColor;
-
-        public ColorPair(string colorName, Color color)
+        public static void UpdateUI(Layout layout, Color foreground, Color background) 
         {
-            _colorName = colorName;
-            _selectedColor = color;
+            layout.BackgroundColor = background;
+            UpdateColors(layout, foreground, background);
         }
-
-        public string ColorName
+        private static void UpdateColors(Layout layout, Color foreground, Color background)
         {
-            get
+            foreach (var child in layout.Children)
             {
-                return _colorName;
-            }
-        }
-
-        public Color SelectedColor 
-        {
-            get
-            {
-                return _selectedColor;
+                if (child is Layout childLayout)
+                {
+                    UpdateColors(childLayout, foreground, background);
+                }
+                else
+                {
+                    switch (child)
+                    {
+                        case Label label:
+                            label.TextColor = foreground;
+                            break;
+                        case Button button:
+                            button.TextColor = foreground;
+                            break;
+                        case Picker picker:
+                            picker.TextColor = foreground;
+                            break;
+                        case Slider slider:
+                            slider.MinimumTrackColor = foreground;
+                            slider.MaximumTrackColor = foreground;
+                            slider.BackgroundColor = foreground;
+                            break;
+                        case DatePicker datePicker:
+                            //datePicker.TextColor = foreground;
+                            datePicker.BackgroundColor = foreground;
+                            break;
+                    }
+                }
             }
         }
 
     }
-   public class ExerciseLog
+
+
+    public class ExerciseLog
     {
         private DateTime _dateLogged;
         private int _minsExercised;
+
 
         public ExerciseLog(DateTime dateLogged, int minsExercised)
         {
             _dateLogged = dateLogged;
             _minsExercised = minsExercised;
         }
+
 
         public DateTime DateLogged
         {
@@ -58,6 +76,7 @@ namespace ExerciseTrackerHS
                 return _dateLogged;
             }
         }
+
 
         public int MinsExercised
         {
@@ -68,10 +87,12 @@ namespace ExerciseTrackerHS
         }
     }
 
+
     public class ExerciseLogger
     {
         private Dictionary<int, ExerciseLog> _exerciseLogs;
         private const string _fileName = "Fitness.txt";
+
 
         public ExerciseLogger()
         {
@@ -79,63 +100,101 @@ namespace ExerciseTrackerHS
             LoadDataFromFile();
         }
 
+
         public void AddorUpdateLog(ExerciseLog exerciseLog)
         {
-            bool _addOrUpdateSuccess = false;
-            if (_exerciseLogs.ContainsKey(exerciseLog.DateLogged.DayOfYear))
+            if (IfDataExists(exerciseLog.DateLogged)) 
             {
                 _exerciseLogs[exerciseLog.DateLogged.DayOfYear] = exerciseLog;
-                _addOrUpdateSuccess = true;
             }
             else
             {
                 _exerciseLogs.Add(exerciseLog.DateLogged.DayOfYear, exerciseLog);
-                _addOrUpdateSuccess = true;
             }
 
-            if (_addOrUpdateSuccess)
+            SaveDataToFile(_exerciseLogs);
+        }
+
+
+        public bool IfDataExists(DateTime logDate)
+        {
+            if (_exerciseLogs.ContainsKey(logDate.DayOfYear))
             {
-                SaveDataToFile(_exerciseLogs);
+                return true;
+            }
+            else
+            { 
+                return false; 
             }
         }
 
+        
+        public ExerciseLog GetExerciseLog(DateTime logDate)
+        {
+            if (IfDataExists(logDate))
+            {
+                return _exerciseLogs[logDate.DayOfYear];
+            }
+            else
+            {
+                return null;
+            }
+        }
         public int Count()
         {
             return _exerciseLogs.Count;
         }
 
-        public int CatchUpMins(int curAveMin)
+
+        public int CatchUpMins(int dailyExerciseMins)
         {
-            int MaxDay = DateTime.Now.DayOfYear; //_exerciseLogs.Keys.Max();
-            int MinsToDate = 365 * curAveMin;
+            int MaxDays = 365;
+            int CurDay = DateTime.Now.DayOfYear; 
+            int MinsToDate = 0;
             int TotExerMins = 0;
             int MinsToCatchUp = 0;
-            int ActualDailyCatchUp = 0;
-            foreach (var log in _exerciseLogs.Values)
+            int ActualDailyCatchUpMins = 0;
+
+            if (DateTime.IsLeapYear(DateTime.Now.Year) )
             {
-                TotExerMins += log.MinsExercised;
+                MaxDays = 366;
             }
+
+            MinsToDate = MaxDays * dailyExerciseMins;
+
+            TotExerMins = _exerciseLogs.Values.Sum(item => item.MinsExercised);
+            //foreach (var log in _exerciseLogs.Values)
+            //{
+            //    TotExerMins += log.MinsExercised;
+            //}
             MinsToCatchUp = MinsToDate - TotExerMins;
-            ActualDailyCatchUp = MinsToCatchUp / (365 - MaxDay);
-            return ActualDailyCatchUp;
+            ActualDailyCatchUpMins = MinsToCatchUp / (MaxDays - CurDay);
+            return ActualDailyCatchUpMins;
         }
+
 
         public string HoursDone(int curAveMin)
         {
-            int MaxDays = DateTime.Now.DayOfYear; //_exerciseLogs.Keys.Max();
+            int MaxDays = 365; 
             int TotExerMins = 0;
             int ActualHours = 0;
             int ActualMins = 0;
             int ExpectedHours = 0;
             int ExpectedMins = 0;
 
+            if (DateTime.IsLeapYear(DateTime.Now.Year))
+            {
+                MaxDays = 365;
+            }
+
             ExpectedHours = (MaxDays * curAveMin) / 60;
             ExpectedMins = (MaxDays * curAveMin) % 60;
 
-            foreach (var log in _exerciseLogs.Values)
-            {
-                TotExerMins += log.MinsExercised;
-            }
+            TotExerMins = _exerciseLogs.Values.Sum(item => item.MinsExercised);
+            //foreach (var log in _exerciseLogs.Values)
+            //{
+            //    TotExerMins += log.MinsExercised;
+            //}
             if (TotExerMins > 0)
             {
                 ActualHours = TotExerMins / 60;
@@ -143,6 +202,8 @@ namespace ExerciseTrackerHS
             }
             return $"Total exercise = {ActualHours.ToString("D3")}:{ActualMins.ToString("D2")} hours out of {ExpectedHours.ToString("D3")}:{ExpectedMins.ToString("D2")}";
         }
+        
+        
         public int AverageExercised()
         {
             //Set variables to calculate the averageminutes
@@ -164,6 +225,7 @@ namespace ExerciseTrackerHS
             return aveExerMins;
         }
 
+
         public void LoadDataFromFile()
         {
             var _localPath = FileSystem.Current.AppDataDirectory;
@@ -173,13 +235,27 @@ namespace ExerciseTrackerHS
             {
                 string jsonData = File.ReadAllText(_filePath);
                 _exerciseLogs = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, ExerciseLog>>(jsonData);
-                Debug.WriteLine($"Display count of Exercise Logs loaded from file: {_exerciseLogs.Count.ToString()}");
+                Debug.WriteLine($"Path to find data file: {_filePath}");
+                //Debug.WriteLine($"Display count of Exercise Logs loaded from file: {_exerciseLogs.Count.ToString()}");
             }
             else
             {
                 _exerciseLogs = new Dictionary<int, ExerciseLog>();
             }
         }
+
+
+        public void ResetNewYear()
+        {
+            var _localPath = FileSystem.Current.AppDataDirectory;
+            var _filePath = Path.Combine(_localPath, _fileName);
+
+            if (File.Exists(Path.Combine(_localPath, _fileName)))
+            {
+                File.Delete(_filePath);
+            }
+        }
+
 
         public void SaveDataToFile(Dictionary<int, ExerciseLog> exerciseLogs)
         {
@@ -189,9 +265,8 @@ namespace ExerciseTrackerHS
             File.WriteAllText(_filePath, jsonData);
             Debug.WriteLine($"Path to find data file: {_filePath}");
         }
-
-
     }
+
 
     public class UserData
     {
@@ -219,7 +294,5 @@ namespace ExerciseTrackerHS
             Preferences.Set("BackgroundColor", background.ToHex().ToString());
             Preferences.Set("MaxDailyExercise", maxDailyExercise.ToString());
         }
-
-
     }
 }

@@ -18,32 +18,27 @@
 
         <VerticalStackLayout Spacing="10" VerticalOptions="CenterAndExpand">
             <Label
-                Text="Select color and click button to set foreground / background color" 
-                HorizontalTextAlignment="Center"
-                HorizontalOptions="Center"
-                WidthRequest="300"/>
-        
-            <Picker x:Name="colorPicker" 
-                    SelectedIndexChanged="OnColorSelected"
-                    WidthRequest="100"
-                    HorizontalOptions="CenterAndExpand"
-                    />
-            <ListView 
-                x:Name="colorViewSelector" 
-                ItemSelected="OnColorItemSelected">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextCell Text="{Binding ColorName}"
-                                  TextColor="{Binding SelectedColor}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-
-            <BoxView x:Name="colorDisplayBox"
-                         HeightRequest="10"
-                         VerticalOptions="FillAndExpand" />
+                    Text="Select color in the box below and click button to either set foreground or background color" 
+                    HorizontalTextAlignment="Center"
+                    HorizontalOptions="Center"
+                    WidthRequest="300"/>
+            <Border
+                Stroke="Bisque"
+                Background="AliceBlue"
+                StrokeThickness="4"
+                StrokeShape="Rectangle 160, 0, 0, 160"
+                Padding="16, 8"
+                HorizontalOptions="CenterAndExpand">
                 
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                <Picker x:Name="colorPicker" 
+                        SelectedIndexChanged="OnColorSelected"
+                        Title="Select Color:"
+                        WidthRequest="100"
+                        HorizontalOptions="CenterAndExpand"
+                        />
+            </Border>
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
                 <VerticalStackLayout>
                     <Label x:Name="foregroundLabel" 
                           Text="          "
@@ -51,7 +46,7 @@
                           HorizontalOptions="Start" />
 
                     <Button x:Name="foregroundBtn"
-                            Text="Set Foreground Color"
+                            Text="Set Foreground"
                             Clicked="OnForegroundButtonClicked"
                             WidthRequest="150"
                             HorizontalOptions="Start" />
@@ -63,7 +58,7 @@
                        HorizontalOptions="End" />
 
                     <Button x:Name="backgroundBtn"
-                            Text="Set Background Color"
+                            Text="Set Background"
                             Clicked="OnBackgroundButtonClicked"
                             WidthRequest="150"
                             HorizontalOptions="End" />
@@ -85,6 +80,8 @@
                        HorizontalOptions="FillAndExpand"
                        />
             </HorizontalStackLayout>
+
+            <Label x:Name="lblSettingsStatus" HorizontalOptions="Center" SemanticProperties.Description="Setting Status"/>
 
             <Button x:Name="saveButton"
                     Text="Save Preferences"
