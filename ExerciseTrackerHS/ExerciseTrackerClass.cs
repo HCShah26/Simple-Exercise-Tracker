@@ -191,10 +191,6 @@ namespace ExerciseTrackerHS
             ExpectedMins = (MaxDays * curAveMin) % 60;
 
             TotExerMins = _exerciseLogs.Values.Sum(item => item.MinsExercised);
-            //foreach (var log in _exerciseLogs.Values)
-            //{
-            //    TotExerMins += log.MinsExercised;
-            //}
             if (TotExerMins > 0)
             {
                 ActualHours = TotExerMins / 60;

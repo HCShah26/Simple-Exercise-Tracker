@@ -20,14 +20,18 @@
 
         <VerticalStackLayout Spacing="10" VerticalOptions="CenterAndExpand">
             <Label 
-               x:Name="DisplayAveExercised" 
-                HorizontalOptions="CenterAndExpand"
+                x:Name="DisplayAveExercised" 
+                HorizontalOptions="Center"
                 VerticalOptions="FillAndExpand"/>
 
             <Label 
-               x:Name="DisplayExerciseStats"
-               SemanticProperties.Description="Displays the minutes to catch up and total hours exercised to date"
-                HorizontalOptions="CenterAndExpand"
+                x:Name="DisplayCatchupMins"
+                HorizontalOptions="Center" />       
+
+            <Label 
+                x:Name="DisplayExerciseStats"
+                SemanticProperties.Description="Displays the minutes to catch up and total hours exercised to date"
+                HorizontalOptions="Center"
                 VerticalOptions="FillAndExpand"/>
 
             <DatePicker 
@@ -38,6 +42,7 @@
 
             <HorizontalStackLayout 
                 Margin="30" 
+                Spacing="10"
                 HorizontalOptions="CenterAndExpand"
                 VerticalOptions="FillAndExpand">
 

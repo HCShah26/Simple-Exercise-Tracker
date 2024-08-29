@@ -29,6 +29,10 @@
                 x:Name="DisplayAveExercised" 
                 HorizontalOptions="Center"/>
 
+            <Label 
+                x:Name="DisplayCatchupMins"
+                HorizontalOptions="Center" />
+
 
             <Label 
                 x:Name="DisplayExerciseStats"

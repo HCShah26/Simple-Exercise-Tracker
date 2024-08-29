@@ -94,11 +94,11 @@ public partial class LogPage : ContentPage
         DisplayAveExercised.Text = $"Daily average execise minutes: {_dailyAveExercise}";
         //SemanticScreenReader.Announce(DisplayAveExercised.Text);
 
-        DisplayExerciseStats.Text = ($"Exercise plan catchup minutes: " +
-            $"{_logger.CatchUpMins(_userPreferences.maxDailyExercise)}" +
-        $" {Environment.NewLine} " +
-            $"{_logger.HoursDone(_userPreferences.maxDailyExercise)}");
-        //SemanticScreenReader.Announce(DisplayExerciseStats.Text);
+        DisplayCatchupMins.Text = $"Exercise plan catchup minutes: {_logger.CatchUpMins(_userPreferences.maxDailyExercise)}";
+        //SemanticScreenReader.Announce(DisplayCatchupMins.Text);
+
+        DisplayExerciseStats.Text = $"{_logger.HoursDone(_userPreferences.maxDailyExercise)}";
+        //SemanticScreenReader.Announce(DisplayExerciseStats.Text);  
     }
 
 
@@ -141,6 +141,7 @@ public partial class LogPage : ContentPage
         {
             slider.Value = 0;
             lblSlider.Text = Convert.ToInt32(slider.Value).ToString();
+            lblLogStatus.Text = "";
         }
     }
 

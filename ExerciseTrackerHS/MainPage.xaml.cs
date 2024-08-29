@@ -24,6 +24,7 @@ namespace ExerciseTrackerHS
             {
                 await Task.Delay(500);
                 SemanticScreenReader.Announce(DisplayAveExercised.Text);
+                SemanticScreenReader.Announce(DisplayCatchupMins.Text);
                 SemanticScreenReader.Announce(DisplayExerciseStats.Text);
             });
         }
@@ -86,11 +87,11 @@ namespace ExerciseTrackerHS
             }
             DisplayAveExercised.Text = $"Daily average execise minutes: {_dailyAveExercise}";
             //SemanticScreenReader.Announce(DisplayAveExercised.Text);
-  
-            DisplayExerciseStats.Text = ($"Exercise plan catchup minutes: " +
-                $"{logger.CatchUpMins(userPreferences.maxDailyExercise)}" +
-                $" {Environment.NewLine} " +
-                $"{logger.HoursDone(userPreferences.maxDailyExercise)}");
+
+            DisplayCatchupMins.Text = $"Exercise plan catchup minutes: {logger.CatchUpMins(userPreferences.maxDailyExercise)}";
+            //SemanticScreenReader.Announce(DisplayCatchupMins.Text);
+
+            DisplayExerciseStats.Text = $"{logger.HoursDone(userPreferences.maxDailyExercise)}";
             //SemanticScreenReader.Announce(DisplayExerciseStats.Text);  
         }
     }
