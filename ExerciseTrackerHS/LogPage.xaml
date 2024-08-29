@@ -39,7 +39,7 @@
             <HorizontalStackLayout 
                 Margin="30" 
                 HorizontalOptions="CenterAndExpand"
-                VerticalOptions="FillAndExpand" Spacing="10">
+                VerticalOptions="FillAndExpand">
 
                 <Slider 
                         x:Name="slider"
@@ -56,8 +56,8 @@
                         HorizontalOptions="FillAndExpand"
                         />
             </HorizontalStackLayout>
-            
-            <Label x:Name="lblAlreadyLogged" HorizontalOptions="Center" VerticalOptions="EndAndExpand"/>
+
+            <Label x:Name="lblLogStatus" HorizontalOptions="Center" />
             
             <Button
                 x:Name="LogFitnessBtn"
